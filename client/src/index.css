@@ -1,0 +1,263 @@
+/*
+ * FastQuill — Design System
+ * Philosophy: "Dispatch System" — operational software meets editorial minimalism
+ * Color: White bg, charcoal text, slate navy primary, amber CTAs
+ * Type: Playfair Display (headlines) + Source Sans 3 (body) + JetBrains Mono (stats)
+ * Layout: Full-width sections, left-aligned, section numbering, thin rules
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.13 0.01 264);
+  --card: oklch(0.975 0.002 264);
+  --card-foreground: oklch(0.13 0.01 264);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.01 264);
+  /* Slate navy #1B3A6B */
+  --primary: oklch(0.32 0.09 264);
+  --primary-foreground: oklch(1 0 0);
+  /* Amber #B45309 */
+  --accent: oklch(0.52 0.14 55);
+  --accent-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.003 264);
+  --secondary-foreground: oklch(0.32 0.09 264);
+  --muted: oklch(0.96 0.003 264);
+  --muted-foreground: oklch(0.50 0.01 264);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.90 0.005 264);
+  --input: oklch(0.90 0.005 264);
+  --ring: oklch(0.32 0.09 264);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  a[href],
+  select:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 1200px;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* Section label — small caps tracking */
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  /* Stat display — monospaced */
+  .stat-mono {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: oklch(0.32 0.09 264);
+    line-height: 1;
+  }
+
+  /* Thin horizontal rule */
+  .rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    width: 100%;
+  }
+
+  /* CTA button — amber, minimal radius */
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: oklch(0.52 0.14 55);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.875rem 2rem;
+    border-radius: 2px;
+    border: none;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    text-decoration: none;
+  }
+  .btn-cta:hover {
+    background-color: oklch(0.46 0.14 55);
+  }
+  .btn-cta:active {
+    transform: scale(0.98);
+  }
+
+  /* Secondary button — outlined slate navy */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: oklch(0.32 0.09 264);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.875rem 2rem;
+    border-radius: 2px;
+    border: 1.5px solid oklch(0.32 0.09 264);
+    transition: background-color 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+  }
+  .btn-secondary:hover {
+    background-color: oklch(0.32 0.09 264);
+    color: white;
+  }
+
+  /* Fade-up animation for scroll reveals */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Inbox simulation styles */
+  .inbox-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px oklch(0 0 0 / 0.06), 0 1px 4px oklch(0 0 0 / 0.04);
+  }
+
+  .inbox-header {
+    background: oklch(0.32 0.09 264);
+    color: white;
+    padding: 0.875rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .msg-patient {
+    background: oklch(0.96 0.003 264);
+    border-radius: 2px 12px 12px 2px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    max-width: 85%;
+    align-self: flex-start;
+  }
+
+  .msg-fastquill {
+    background: oklch(0.32 0.09 264);
+    color: white;
+    border-radius: 12px 2px 2px 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    max-width: 85%;
+    align-self: flex-end;
+  }
+
+  .msg-time {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--muted-foreground);
+    margin-top: 0.25rem;
+  }
+
+  .msg-time-white {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: oklch(0.85 0 0);
+    margin-top: 0.25rem;
+    text-align: right;
+  }
+}
