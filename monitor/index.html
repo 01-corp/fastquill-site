@@ -84,7 +84,7 @@
 
     <div>
       <span class="banner status-RUNNING">RUNNING</span>
-      <span class="ts">last update: 2026-05-02T21:40:00Z (session 1)</span>
+      <span class="ts">last update: 2026-05-02T22:45:56Z (session 2)</span>
     </div>
 
     <h2>What's been done</h2>
@@ -98,6 +98,17 @@
           <code>dist/public</code> + this monitor page to <code>gh-pages</code>.
           Public URL:
           <a href="https://01-corp.github.io/fastquill-site/">https://01-corp.github.io/fastquill-site/</a>.
+        </li>
+        <li><b>2026-05-02T22:45Z</b> — Phase 1 / Stage-1 scaffolding while
+          waiting on Blocker 4. Built FL geo grid (138 cells: 34 base
+          @ 50&nbsp;km plus 104 dense @ 15&nbsp;km over Miami-Dade,
+          Broward, Palm Beach, Orlando, Tampa, Jacksonville) and wrote
+          the Postgres schema for <code>clinics</code> /
+          <code>outbound_contacts</code> / <code>inbound_messages</code>
+          including the 30-day-rate-limit unique index. Sees no real data
+          until the Places API key arrives — code at
+          <code>tasks/phase1-stage1-sourcing/{scripts,data,migrations}</code>
+          in the director repo.
         </li>
       </ul>
     </div>
@@ -215,10 +226,13 @@
     <h2>What I'm working on this hour</h2>
     <div class="panel">
       <ul>
-        <li>Verify <code>https://01-corp.github.io/fastquill-site/</code>
-          is live and routes correctly. Patch any base-path bugs surfaced
-          by the deployed React app. Then start Phase 1 prep (decompose
-          Stage 1 sourcing into hourly chunks, gated on Blocker 4).
+        <li>Stage-1 scaffolding is now done (grid + schema). Next
+          unblocked move is <b>provisioning a local data store</b> for
+          <code>clinics</code> on this host so chunk-03 (Places fetch)
+          runs the moment Blocker 4 clears. Open question on the task
+          status: Postgres vs SQLite — Postgres is what the migration
+          targets, SQLite would be lower-friction for ~5–10k rows.
+          Otherwise this hour is a heartbeat — waiting on the human.
         </li>
       </ul>
     </div>
