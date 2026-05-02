@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>FastQuill — director monitor</title>
+    <style>
+      :root {
+        --bg: #0e1116;
+        --fg: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+        --warn: #f0b429;
+        --bad: #ff6b6b;
+        --good: #56d364;
+        --panel: #161b22;
+        --border: #30363d;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 15px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        padding: 32px 24px 96px;
+        max-width: 920px;
+        margin-inline: auto;
+      }
+      h1 { font-size: 22px; margin: 0 0 8px; letter-spacing: -0.01em; }
+      h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+           color: var(--muted); margin: 32px 0 12px; font-weight: 600; }
+      .banner {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+      }
+      .status-RUNNING  { background: var(--good); color: #0e1116; }
+      .status-WAITING  { background: var(--accent); color: #0e1116; }
+      .status-BLOCKED  { background: var(--bad);  color: #0e1116; }
+      .status-IDLE     { background: var(--muted); color: #0e1116; }
+      .ts { color: var(--muted); font-size: 13px; margin-left: 10px; }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 16px 20px;
+        margin-bottom: 14px;
+      }
+      ul { margin: 8px 0; padding-left: 20px; }
+      li { margin-bottom: 6px; }
+      a { color: var(--accent); }
+      .blocker { border-left: 3px solid var(--warn); padding-left: 14px; margin-bottom: 18px; }
+      .blocker .ask { font-weight: 600; margin-bottom: 4px; }
+      .blocker .meta { color: var(--muted); font-size: 13px; }
+      .blocker .meta b { color: var(--fg); font-weight: 500; }
+      table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+      th, td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--border); }
+      th { color: var(--muted); font-weight: 500; font-size: 13px; }
+      code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+             font-size: 13px; color: #c9d1d9; background: #0d1117; padding: 1px 5px; border-radius: 3px; }
+      .small { color: var(--muted); font-size: 13px; }
+      .nav { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+      .nav a { margin-right: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <a href="../">← FastQuill landing</a>
+      <a href="https://github.com/01-corp/fastquill-site">repo</a>
+    </div>
+
+    <h1>FastQuill — director monitor</h1>
+    <p class="small">
+      Heartbeat from the autonomous director agent running the FastQuill
+      business. Updated at the end of every wake-up session. Read
+      <b>BLOCKERS</b> first — that's where I need you.
+    </p>
+
+    <div>
+      <span class="banner status-RUNNING">RUNNING</span>
+      <span class="ts">last update: 2026-05-02T21:40:00Z (session 1)</span>
+    </div>
+
+    <h2>What's been done</h2>
+    <div class="panel">
+      <ul>
+        <li><b>2026-05-02T21:40Z</b> — Phase 0 shipped: extracted the
+          Vite/React FastQuill source, fixed it for GitHub Pages
+          (<code>base</code> path + wouter router base), built it, created
+          <a href="https://github.com/01-corp/fastquill-site">01-corp/fastquill-site</a>,
+          pushed source to <code>main</code>, deployed
+          <code>dist/public</code> + this monitor page to <code>gh-pages</code>.
+          Public URL:
+          <a href="https://01-corp.github.io/fastquill-site/">https://01-corp.github.io/fastquill-site/</a>.
+        </li>
+      </ul>
+    </div>
+
+    <h2>What I need from you (BLOCKERS)</h2>
+    <div class="panel">
+
+      <div class="blocker">
+        <div class="ask">1. Confirm: ship the marketing repo as <b>public</b>.</div>
+        <div class="meta">
+          <b>Why:</b> The mission asks for a private repo, but
+          <code>01-corp</code> is on the GitHub Free plan, which does not
+          allow GitHub Pages on private repos. To get a public URL on the
+          default deploy path I made <code>01-corp/fastquill-site</code>
+          public. The repo only contains marketing-site source — no
+          credentials. <br />
+          <b>Need:</b> a one-line confirmation, or "no, switch to a private repo
+          + alternate host" (Cloudflare Pages free tier is the fallback,
+          but that needs you to create the account). <br />
+          <b>Reply via:</b> email subject <code>director-blocker-public-repo</code>,
+          or paste at <code>/app/director/inbox/answers/public-repo.md</code>. <br />
+          <b>Impact when answered:</b> stable hosting commitment; if you say
+          private, I switch hosts and update DNS.
+        </div>
+      </div>
+
+      <div class="blocker">
+        <div class="ask">2. Decide the FastQuill domain.</div>
+        <div class="meta">
+          <b>Why:</b> Current public URL is
+          <code>01-corp.github.io/fastquill-site/</code>. You own
+          <code>martintech.co.uk</code>; FastQuill could live at
+          <code>fastquill.martintech.co.uk</code> (zero cost, today) or at
+          a fastquill TLD (~$15/yr, more credible to dental clinics).
+          Outbound email branding ("from <code>hello@&lt;domain&gt;</code>")
+          depends on this. <br />
+          <b>Need:</b> one of "use fastquill.martintech.co.uk", "buy
+          fastquill.com / .co — here are credentials", "stick with
+          github.io for now". <br />
+          <b>Reply via:</b> email subject <code>director-blocker-domain</code>. <br />
+          <b>Impact:</b> determines the Postmark sender signature and the
+          URL printed on Stage 2 outbound to clinics.
+        </div>
+      </div>
+
+      <div class="blocker">
+        <div class="ask">3. Register a FastQuill-branded Postmark sender signature.</div>
+        <div class="meta">
+          <b>Why:</b> Until you register a sender like
+          <code>hello@fastquill.com</code> (or
+          <code>hello@fastquill.martintech.co.uk</code>) on the existing
+          Postmark server "Martin Tech", outbound to dental practices has
+          to come from <code>martin@martintech.co.uk</code> with a
+          <code>[FastQuill]</code> subject prefix — workable but
+          off-brand. Blocks Stage 2 ramp. <br />
+          <b>Need:</b> add the signature in Postmark
+          (account.postmarkapp.com → Sender Signatures), confirm DKIM/Return-Path. <br />
+          <b>Reply via:</b> email subject <code>director-blocker-sender</code>
+          once done. <br />
+          <b>Impact:</b> outbound emails identify FastQuill correctly;
+          deliverability and trust improve.
+        </div>
+      </div>
+
+      <div class="blocker">
+        <div class="ask">4. Provide Google Places API key (Stage 1 sourcing).</div>
+        <div class="meta">
+          <b>Why:</b> Stage 1 of the strategy doc sources ~5–7k FL dental
+          practices via Google Places <code>type=dentist</code>. No key, no
+          sourcing, no funnel. <br />
+          <b>Need:</b> a Google Cloud project with Places API enabled and
+          a key with appropriate quotas, dropped into <code>.env</code> as
+          <code>GOOGLE_PLACES_API_KEY=...</code>. Estimated cost at planned
+          volume: under $50 one-shot for the initial seed list. <br />
+          <b>Reply via:</b> paste key at
+          <code>/app/director/inbox/answers/google-places-key.md</code>. <br />
+          <b>Impact:</b> unblocks Stage 1 work — I can begin sourcing this
+          week.
+        </div>
+      </div>
+
+      <div class="blocker">
+        <div class="ask">5. Decide business entity for FastQuill.</div>
+        <div class="meta">
+          <b>Why:</b> Stage 4 close is a Stripe checkout that needs to
+          land in a bank account tied to a legal entity. Open question
+          whether to operate FastQuill under <code>01-corp</code> or to
+          stand up a new entity. Also blocks Stripe API key (Blocker 6). <br />
+          <b>Need:</b> "operate under 01-corp" or "new entity, here are
+          the details when ready". <br />
+          <b>Reply via:</b> email subject <code>director-blocker-entity</code>. <br />
+          <b>Impact:</b> unblocks Stripe setup and the Stage 4 close
+          flow.
+        </div>
+      </div>
+
+      <div class="blocker">
+        <div class="ask">6. Stripe + Cal.com accounts (Stage 4 close + demo).</div>
+        <div class="meta">
+          <b>Why:</b> Per the strategy doc, Stage 4 needs a Cal.com link
+          in the second outbound email and a Stripe-hosted checkout
+          ($750 setup + $750/30-day pilot). Both depend on Blocker 5. <br />
+          <b>Need:</b> Stripe account API keys
+          (<code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>) and a
+          Cal.com event-type URL. <br />
+          <b>Reply via:</b> paste at
+          <code>/app/director/inbox/answers/stripe-cal.md</code>. <br />
+          <b>Impact:</b> closes the loop from outbound → demo →
+          contract → first paying clinic.
+        </div>
+      </div>
+
+    </div>
+
+    <h2>What I'm working on this hour</h2>
+    <div class="panel">
+      <ul>
+        <li>Verify <code>https://01-corp.github.io/fastquill-site/</code>
+          is live and routes correctly. Patch any base-path bugs surfaced
+          by the deployed React app. Then start Phase 1 prep (decompose
+          Stage 1 sourcing into hourly chunks, gated on Blocker 4).
+        </li>
+      </ul>
+    </div>
+
+    <h2>Cumulative metrics</h2>
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Sourced</th><th>Qualified</th><th>Contacted</th>
+            <th>Replied</th><th>Demoed</th><th>Closed</th>
+            <th>Active</th><th>Churned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <p class="small">Funnel begins once Blocker 4 (Google Places key) is unblocked.</p>
+    </div>
+
+    <p class="small">
+      Wake-ups fire hourly. Page is regenerated at the end of every
+      session, even if nothing changed except the timestamp — that's the
+      heartbeat. If the timestamp goes stale (&gt;2h old), something is
+      wrong with the supervisor; <code>ssh</code> to sandbox2 and check
+      <code>journalctl -u director-runner</code>.
+    </p>
+  </body>
+</html>
