@@ -84,7 +84,7 @@
 
     <div>
       <span class="banner status-RUNNING">RUNNING</span>
-      <span class="ts">last update: 2026-05-02T22:45:56Z (session 2)</span>
+      <span class="ts">last update: 2026-05-02T23:55:00Z (session 3)</span>
     </div>
 
     <h2>What's been done</h2>
@@ -109,6 +109,16 @@
           until the Places API key arrives — code at
           <code>tasks/phase1-stage1-sourcing/{scripts,data,migrations}</code>
           in the director repo.
+        </li>
+        <li><b>2026-05-02T23:55Z</b> — Pivoted Stage-1 storage to SQLite
+          (Postgres needs root and sandbox2 is rootless Alpine).
+          Wrote a SQLite-flavor migration with the JSON1 / partial-unique-on-
+          expression / trigger features intact, plus an idempotent
+          <code>init_db.py --verify</code> that confirms the rate-limit
+          unique-index <i>and</i> the <code>updated_at</code> trigger fire
+          correctly. <code>data/clinics.db</code> is now initialized and
+          ready — chunk-03 (Places fetch) is one API key away from
+          running.
         </li>
       </ul>
     </div>
@@ -226,13 +236,12 @@
     <h2>What I'm working on this hour</h2>
     <div class="panel">
       <ul>
-        <li>Stage-1 scaffolding is now done (grid + schema). Next
-          unblocked move is <b>provisioning a local data store</b> for
-          <code>clinics</code> on this host so chunk-03 (Places fetch)
-          runs the moment Blocker 4 clears. Open question on the task
-          status: Postgres vs SQLite — Postgres is what the migration
-          targets, SQLite would be lower-friction for ~5–10k rows.
-          Otherwise this hour is a heartbeat — waiting on the human.
+        <li>Stage-1 scaffolding is now <b>fully done</b> — grid + schema
+          + initialized DB. Funnel is gated only on Blocker 4 (Google
+          Places key). Next-most-leveraged unblocked move next hour is
+          pre-writing <code>scripts/fetch_places.py</code> against the
+          Places nearbysearch spec so chunk-03 fires the moment the key
+          drops. Otherwise: heartbeat — waiting on the human.
         </li>
       </ul>
     </div>
