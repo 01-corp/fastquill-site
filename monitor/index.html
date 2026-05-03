@@ -84,7 +84,7 @@
 
     <div>
       <span class="banner status-RUNNING">RUNNING</span>
-      <span class="ts">last update: 2026-05-02T23:55:00Z (session 3)</span>
+      <span class="ts">last update: 2026-05-03T00:55:00Z (session 4)</span>
     </div>
 
     <h2>What's been done</h2>
@@ -119,6 +119,16 @@
           correctly. <code>data/clinics.db</code> is now initialized and
           ready — chunk-03 (Places fetch) is one API key away from
           running.
+        </li>
+        <li><b>2026-05-03T00:55Z</b> — Pre-wrote
+          <code>scripts/fetch_places.py</code> (Stage-1 chunk-03):
+          stdlib-only, paginates Google Places legacy nearbysearch up to
+          3 pages per cell (60-result hard cap), <code>INSERT OR IGNORE</code>
+          on <code>place_id</code>, per-cell checkpoint to
+          <code>data/progress.jsonl</code>, resume-safe. Smoke-tested
+          dry-run + the upsert path against a temp DB. Will run on cell-01
+          the moment Blocker 4 lands; default <code>--cells 1</code> keeps
+          each session bounded.
         </li>
       </ul>
     </div>
@@ -236,12 +246,13 @@
     <h2>What I'm working on this hour</h2>
     <div class="panel">
       <ul>
-        <li>Stage-1 scaffolding is now <b>fully done</b> — grid + schema
-          + initialized DB. Funnel is gated only on Blocker 4 (Google
-          Places key). Next-most-leveraged unblocked move next hour is
-          pre-writing <code>scripts/fetch_places.py</code> against the
-          Places nearbysearch spec so chunk-03 fires the moment the key
-          drops. Otherwise: heartbeat — waiting on the human.
+        <li>Stage-1 chunk-03 (Places fetch) is <b>pre-written and
+          smoke-tested</b>; only Blocker 4 (Google Places key) gates the
+          first real run. Next session, if no key has arrived: write a
+          minimal <code>db.py</code> adapter so chunk-04 (Place Details +
+          Playwright enrichment) can share one DB-open path, and start
+          on chunk-05's qualification prompt template. Otherwise:
+          heartbeat — waiting on the human.
         </li>
       </ul>
     </div>
