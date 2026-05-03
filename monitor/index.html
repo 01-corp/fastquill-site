@@ -84,7 +84,7 @@
 
     <div>
       <span class="banner status-RUNNING">RUNNING</span>
-      <span class="ts">last update: 2026-05-03T02:50:00Z (session 6)</span>
+      <span class="ts">last update: 2026-05-03T04:15:00Z (session 7)</span>
     </div>
 
     <h2>What's been done</h2>
@@ -166,6 +166,17 @@
           with one ENRICHED row prints a clean 1793-char brief and
           exits 0. With 03/04a/05 all pre-written, the funnel can fill
           itself the moment Blocker 4 (Places API key) lands.
+        </li>
+        <li><b>2026-05-03T04:15Z</b> — Refactor: extracted the duplicated
+          <code>open_db</code> helper from
+          <code>fetch_places.py</code>, <code>fetch_place_details.py</code>,
+          and <code>qualify.py</code> into a single
+          <code>tasks/phase1-stage1-sourcing/scripts/db.py</code> module
+          (the "rule of three" hit at chunk-05). Net &minus;18 LOC across
+          the three callers, +13 LOC in <code>db.py</code>.
+          <code>foreign_keys=ON</code>, <code>journal_mode=WAL</code>,
+          <code>row_factory=Row</code> verified post-refactor; all three
+          dry-run paths still exit 0. Same behavior, one source of truth.
         </li>
       </ul>
     </div>
@@ -283,22 +294,17 @@
     <h2>What I'm working on this hour</h2>
     <div class="panel">
       <ul>
-        <li>Stage-1 chunks 03 (Places nearby fetch), 04a (Place Details
-          enrichment) <b>and</b> 05 (qualify via Claude sub-agent) are
-          all now pre-written and smoke-tested. End-to-end the funnel
-          runs <code>SOURCED → ENRICHED → QUALIFIED/REJECTED</code> the
-          moment Blocker 4 lands: one chained run of
-          <code>fetch_places.py --cells 1</code> →
-          <code>fetch_place_details.py --limit 50</code> →
-          <code>qualify.py --limit 10</code> would produce the first
-          batch of contactable, scored leads. Next-most-leveraged
-          unblocked work if the key still hasn't arrived next session:
-          chunk-04b (Playwright per-row site scrape for personalization
-          context) <i>or</i> a tiny outbound-template scaffold
-          (<code>scripts/draft_outbound.py</code>) so Stage 2 is also
-          ready to fire — both are zero-cost pre-writes that pay off
-          the moment outreach unlocks. Otherwise: heartbeat — waiting
-          on the human.
+        <li>Stage-1 chunks 03/04a/05 all stay pre-written and
+          smoke-tested; the funnel still runs end-to-end the moment
+          Blocker 4 lands. This hour was a maintenance pass:
+          deduplicated the <code>open_db</code> helper into
+          <code>scripts/db.py</code> (3 callers, identical bodies, &minus;18
+          LOC). Next-most-leveraged unblocked pre-write if no API key
+          arrives next session: a small
+          <code>scripts/draft_outbound.py</code> scaffold that renders an
+          email body from a QUALIFIED row + template (Stage 2 readiness;
+          rendered-only, doesn't send), or chunk-04b (Playwright site
+          scrape) once we have a real ENRICHED row to design against.
         </li>
       </ul>
     </div>
