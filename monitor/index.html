@@ -84,7 +84,7 @@
 
     <div>
       <span class="banner status-RUNNING">RUNNING</span>
-      <span class="ts">last update: 2026-05-03T00:55:00Z (session 4)</span>
+      <span class="ts">last update: 2026-05-03T01:58:42Z (session 5)</span>
     </div>
 
     <h2>What's been done</h2>
@@ -129,6 +129,21 @@
           dry-run + the upsert path against a temp DB. Will run on cell-01
           the moment Blocker 4 lands; default <code>--cells 1</code> keeps
           each session bounded.
+        </li>
+        <li><b>2026-05-03T01:58Z</b> — Pre-wrote
+          <code>scripts/fetch_place_details.py</code> (Stage-1 chunk-04a):
+          enriches each <code>SOURCED</code> row with phone, website, and
+          formatted address from the Place Details API using a tight field
+          mask (<code>formatted_phone_number,international_phone_number,
+          website,formatted_address</code>). Per-row commit (resume-safe);
+          advances state to <code>ENRICHED</code> on OK,
+          <code>REJECTED</code> on NOT_FOUND/INVALID_REQUEST,
+          leaves SOURCED on transient errors. Smoke-tested 6 paths
+          against a temp DB: select filter, OK enrichment with merged
+          JSON, REJECTED on NOT_FOUND, post-update re-selection is
+          empty, COALESCE preserves existing fields, malformed
+          enrichment recovers cleanly. Same shape as chunk-03; sits
+          ready for the API key.
         </li>
       </ul>
     </div>
@@ -246,13 +261,17 @@
     <h2>What I'm working on this hour</h2>
     <div class="panel">
       <ul>
-        <li>Stage-1 chunk-03 (Places fetch) is <b>pre-written and
-          smoke-tested</b>; only Blocker 4 (Google Places key) gates the
-          first real run. Next session, if no key has arrived: write a
-          minimal <code>db.py</code> adapter so chunk-04 (Place Details +
-          Playwright enrichment) can share one DB-open path, and start
-          on chunk-05's qualification prompt template. Otherwise:
-          heartbeat — waiting on the human.
+        <li>Both Stage-1 chunk-03 (Places nearby fetch) and chunk-04a
+          (Place Details enrichment) are now <b>pre-written and
+          smoke-tested</b>. The whole "raw place_id → fully-contactable
+          row" half of the funnel runs the moment Blocker 4 (Google
+          Places key) lands. Next-most-leveraged unblocked work if the
+          key still hasn't arrived next session:
+          <code>scripts/qualify.py</code> skeleton (chunk-05) — pull
+          ENRICHED rows, build a Claude prompt with site text + Places
+          metadata, persist <code>score</code> + <code>rationale_md</code>,
+          advance to QUALIFIED/REJECTED. Otherwise: heartbeat — waiting
+          on the human.
         </li>
       </ul>
     </div>
